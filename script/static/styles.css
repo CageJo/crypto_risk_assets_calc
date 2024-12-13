@@ -1,0 +1,181 @@
+/* Základné resetovanie štýlov */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navigačná lišta s cenami aktív - Zmena pozadia na modré */
+.navbar {
+    background-color: #2a65b4; /* Modré pozadie */
+    padding: 10px;
+    color: white;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.asset-prices {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.asset-prices li {
+    margin: 5px 15px;
+    font-size: 18px;
+}
+
+.asset-prices li strong {
+    color: #00ff00;
+}
+
+/* Sekcia "Calculate Positions" */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #2a65b4;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #2a65b4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #1d4d88;
+}
+
+/* Vylepšený vzhľad tlačidla na zobrazenie/skrytie aktív */
+.toggle-btn {
+    background-color: #2a65b4;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background-color: #1d4d88;
+}
+
+/* Pridaná medzera medzi tlačidlami "Add Asset" a "Show Current Assets" */
+.form-section button {
+    margin-bottom: 20px;
+}
+
+/* Skrytá sekcia pre "Current Assets" */
+.assets-list {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.current-assets ul {
+    list-style: none;
+    padding: 0;
+}
+
+.current-assets li {
+    padding: 15px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.current-assets li:hover {
+    background-color: #f1f1f1;
+}
+
+.current-assets li:last-child {
+    margin-bottom: 0;
+}
+
+/* Štýlovanie tabuľky s výsledkami */
+.results-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.results-section th, .results-section td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.results-section th {
+    background-color: #f4f7fa;
+}
+
+.results-section tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.total {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}

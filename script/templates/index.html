@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Risk Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Navigačná lišta s cenami aktív -->
+    <nav class="navbar">
+        <ul class="asset-prices">
+            {% for asset, price in asset_prices.items() %}
+                <li><strong>{{ asset|capitalize }}</strong> ${{ price|round(2) }}</li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Asset Risk Calculator</h1>
+        </header>
+
+        <main>
+            <section class="form-section">
+                <h2>Calculate Positions</h2>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="account_balance">Account Balance (USD):</label>
+                        <input type="number" id="account_balance" name="account_balance" step="0.1" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="max_risk_percent">Max Risk (%):</label>
+                        <input type="number" id="max_risk_percent" name="max_risk_percent" step="0.1" min="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="capital_per_position">Capital Per Position (USD):</label>
+                        <input type="number" id="capital_per_position" name="capital_per_position" step="0.01" min="0.1" required>
+                    </div>
+                    <button type="submit" name="calculate" class="btn">Calculate</button>
+                </form>
+            </section>
+
+            <section class="form-section">
+                <h2>Add New Asset</h2>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="asset_name">Asset Name (e.g., NEWASSET):</label>
+                        <input type="text" id="asset_name" name="asset_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="max_leverage">Max Leverage:</label>
+                        <input type="number" id="max_leverage" name="max_leverage" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="min_notional">Min Notional (USD):</label>
+                        <input type="number" id="min_notional" name="min_notional" required>
+                    </div>
+                    <button type="submit" name="add_asset" class="btn">Add Asset</button>
+                </form>
+            </section>
+
+            {% if results %}
+                <section class="results-section">
+                    <h2>Results</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Max Leverage</th>
+                                <th>Min Notional</th>
+                                <th>Collateral Without Leverage</th>
+                                <th>Minimum Collateral</th>
+                                <th>Risk Contribution (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                                <tr>
+                                    <td>{{ result.asset }}</td>
+                                    <td>{{ result.max_leverage }}</td>
+                                    <td>{{ result.min_notionals }}</td>
+                                    <td>{{ result.collateral_without_leverage }}</td>
+                                    <td>{{ result.minimum_collateral_required }}</td>
+                                    <td>{{ result.risk_contribution | round(2) }}%</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="total">
+                        <p>Total collateral needed: <strong>${{ total_collateral_needed }}</strong></p>
+                        <!-- Zobrazenie aktuálneho rizika -->
+                        <p><strong>Current Risk Status: </strong>
+                            {% if risk_status == "Risk is within limits" %}
+                                <span class="safe">Risk is within limits</span>
+                            {% else %}
+                                <span class="danger">Risk exceeds limit</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </section>
+            {% endif %}
+
+            <!-- Sekcia s aktívami (skrytá pri načítaní stránky) -->
+            <section class="current-assets">
+                <button class="toggle-btn" onclick="toggleAssets()">Show Current Assets</button>
+                <div class="assets-list" style="display: none;">
+                    <h2>Current Assets</h2>
+                    <ul>
+                        {% for asset, info in asset_info.items() %}
+                            <li>{{ asset }}: Min Notional = {{ info.min_notionals }}, Max Leverage = {{ info.max_leverage }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // JavaScript pre zobrazenie a skrytie sekcie aktív
+        function toggleAssets() {
+            var assetsList = document.querySelector('.assets-list');
+            var button = document.querySelector('.toggle-btn');
+
+            if (assetsList.style.display === 'none') {
+                assetsList.style.display = 'block';
+                button.textContent = 'Hide Current Assets';
+            } else {
+                assetsList.style.display = 'none';
+                button.textContent = 'Show Current Assets';
+            }
+        }
+    </script>
+</body>
+</html>
